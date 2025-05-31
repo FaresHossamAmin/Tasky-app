@@ -1,13 +1,30 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:tasky/home_screen.dart';
+import 'dart:convert';
 
-void main() {
-  runApp(const MyApp());
+import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tasky/core/constants/storage_key.dart';
+import 'package:tasky/core/models/task_model.dart';
+import 'package:tasky/core/services/preferences_manager.dart';
+import 'package:tasky/home_screen.dart';
+import 'package:tasky/main_screen.dart';
+import 'package:tasky/welcome_screen.dart';
+
+extension NullableStringValidators on String? {
+  bool get isNullOrEmpty => this == null || this!.trim().isEmpty;
+}
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await PreferencesManager().init();
+  String? username = PreferencesManager().getString(StorageKey.username);
+
+  runApp(MyApp(username: username));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final String? username;
+  const MyApp({super.key, required this.username});
 
   // This widget is the root of your application.
   @override
@@ -16,6 +33,33 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         scaffoldBackgroundColor: Color.fromRGBO(24, 24, 24, 1),
+        switchTheme: SwitchThemeData(
+          trackColor: WidgetStateProperty.resolveWith((states) {
+            if (states.contains(WidgetState.selected)) {
+              return Color.fromRGBO(21, 184, 108, 1);
+            }
+            return Color.fromRGBO(255, 252, 252, 1);
+          }),
+          thumbColor: WidgetStateProperty.resolveWith((states) {
+            if (states.contains(WidgetState.selected)) {
+              return Color.fromRGBO(255, 252, 252, 1);
+            }
+            return Color.fromRGBO(158, 158, 158, 1);
+          }),
+          trackOutlineColor: WidgetStateProperty.resolveWith((states) {
+            if (states.contains(WidgetState.selected)) {
+              return Colors.transparent;
+            }
+            return Color.fromRGBO(158, 158, 158, 1);
+          }),
+
+          trackOutlineWidth: WidgetStateProperty.resolveWith((states) {
+            if (states.contains(WidgetState.selected)) {
+              return 0;
+            }
+            return 2;
+          }),
+        ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
             fixedSize: Size(MediaQuery.of(context).size.width, 40),
@@ -59,99 +103,46 @@ class MyApp extends StatelessWidget {
         inputDecorationTheme: InputDecorationTheme(
           filled: true,
           fillColor: Color.fromRGBO(40, 40, 40, 1),
-          labelStyle: TextStyle(color: Color.fromRGBO(109, 109, 109, 1)),
           hintStyle: TextStyle(color: Color.fromRGBO(109, 109, 109, 1)),
+          floatingLabelBehavior: FloatingLabelBehavior.never,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16),
             borderSide: BorderSide.none,
           ),
         ),
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
+        textSelectionTheme: TextSelectionThemeData(cursorColor: Colors.white),
+        floatingActionButtonTheme: FloatingActionButtonThemeData(
+          backgroundColor: Color.fromRGBO(21, 184, 108, 1),
+          extendedIconLabelSpacing: 8,
+          extendedPadding: EdgeInsets.symmetric(horizontal: 24, vertical: 10),
+          extendedTextStyle: TextStyle(
+            fontSize: 14,
+            fontFamily: "Poppins",
+            fontWeight: FontWeight.w500,
+            color: Color.fromRGBO(255, 255, 255, 1),
+          ),
+        ),
 
-class MyHomePage extends StatelessWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            SizedBox(height: 40),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SvgPicture.asset(
-                  "assets/images/logo.svg",
-                  width: 42,
-                  height: 42,
-                ),
-                SizedBox(width: 16),
-                Text("Tasky", style: Theme.of(context).textTheme.displayLarge),
-              ],
-            ),
-            SizedBox(height: 108),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "Welcome to Tasky",
-                  style: Theme.of(context).textTheme.displayMedium,
-                ),
-                SizedBox(width: 8),
-                SvgPicture.asset(
-                  "assets/images/waving-hand.svg",
-                  width: 28,
-                  height: 28,
-                ),
-              ],
-            ),
-            SizedBox(height: 8),
-            Text(
-              "Your productivity journey starts here.",
-              style: Theme.of(context).textTheme.displaySmall,
-            ),
-            SizedBox(height: 24),
-            SvgPicture.asset(
-              "assets/images/pana.svg",
-              width: 215,
-              height: 204.4,
-            ),
-            SizedBox(height: 28),
-
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                "Full Name",
-                style: Theme.of(context).textTheme.displaySmall,
-              ),
-            ),
-            SizedBox(height: 8),
-            TextField(
-              cursorColor: Colors.white,
-              style: TextStyle(color: Colors.white),
-              decoration: InputDecoration(labelText: "e.g Sarah Khalid"),
-            ),
-            SizedBox(height: 24),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => HomeScreen()),
-                );
-              },
-              child: Text("Let's Get Started"),
-            ),
-          ],
+        bottomNavigationBarTheme: BottomNavigationBarThemeData(
+          showSelectedLabels: true,
+          showUnselectedLabels: true,
+          landscapeLayout: BottomNavigationBarLandscapeLayout.spread,
+          backgroundColor: Color.fromRGBO(24, 24, 24, 1),
+          unselectedItemColor: Color.fromRGBO(198, 198, 198, 1),
+          selectedItemColor: Color.fromRGBO(21, 184, 108, 1),
+          selectedLabelStyle: TextStyle(
+            fontWeight: FontWeight.w500,
+            color: Color.fromRGBO(21, 184, 108, 1),
+            fontSize: 12,
+          ),
+          unselectedLabelStyle: TextStyle(
+            fontWeight: FontWeight.w600,
+            color: Color.fromRGBO(198, 198, 198, 1),
+            fontSize: 12,
+          ),
         ),
       ),
+      home: username.isNullOrEmpty ? WelcomeScreen() : MainScreen(),
     );
   }
 }
