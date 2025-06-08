@@ -1,16 +1,25 @@
-# Tasky
+# Tasky - Flutter To-Do List App
 
-A new Flutter project.
+Tasky is a sleek and intuitive task management app built with Flutter to help you stay organized, motivated, and productive.
 
-## Getting Started
+## Features
 
-This project is a starting point for a Flutter application.
+- **Task Organization by Priority:** Easily prioritize tasks and focus on what matters most.  
+- **Clear Overview:** Home screen displays pending and completed tasks for quick access.  
+- **Dedicated Screens:** Separate To Do and Completed task screens for easy tracking.  
+- **User Profile Customization:** Set your username, upload a profile picture, and add a motivational quote to stay inspired.  
+- **Dark & Light Theme Support:** Seamlessly switch between light and dark modes based on your preference.  
+- **Secure Logout:** Simple logout option to start fresh when needed.  
 
-A few resources to get you started if this is your first Flutter project:
+## Technical Highlights
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- **Persistent State Management:** Keeps your tasks and app settings synced and saved across all screens using Provider.  
+- **UI Separation:** Uses Provider & Consumer for clean separation between UI and logic, enabling scalable and maintainable code.  
+- **Dynamic Theme Handling:** Automatically adapts UI components to match light or dark theme.  
+- **Efficient File Storage:** Uses `path_provider` to store user profile images locally on the device.  
+- **Smooth User Experience:** Intuitive dialogs and popups (image picker, confirmation alerts) for seamless interactions.  
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+---
+
+Check out the [full source code](https://github.com/FaresHossamAmin/Tasky-app) and contribute if you like! 🚀
+
