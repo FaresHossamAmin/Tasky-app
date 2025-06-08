@@ -1,20 +1,19 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:tasky/main.dart';
 
 class CustomTextFormField extends StatelessWidget {
   const CustomTextFormField({
     super.key,
-    required this.title,
-    required this.hintText,
     required this.controller,
+    required this.hintText,
+    required this.title,
     this.validator,
     this.maxLines,
   });
-  final String title, hintText;
-  final Function(String?)? validator;
+
   final TextEditingController controller;
+  final String title;
+  final String hintText;
+  final Function(String?)? validator;
   final int? maxLines;
 
   @override
@@ -22,19 +21,14 @@ class CustomTextFormField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(title, style: Theme.of(context).textTheme.displaySmall),
+        Text(title, style: Theme.of(context).textTheme.titleMedium),
         SizedBox(height: 8),
         TextFormField(
           controller: controller,
-          validator: validator != null
-              ? (String? value) => validator!(value)
-              : null,
-          cursorColor: Colors.white,
-          style: Theme.of(
-            context,
-          ).textTheme.displaySmall?.copyWith(fontFamily: ""),
-          decoration: InputDecoration(hintText: hintText),
+          style: Theme.of(context).textTheme.labelMedium,
           maxLines: maxLines,
+          validator: validator != null ? (String? value) => validator!(value) : null,
+          decoration: InputDecoration(hintText: hintText),
         ),
       ],
     );
