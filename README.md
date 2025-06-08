@@ -1,4 +1,4 @@
-# tasky
+# Tasky
 
 A new Flutter project.
 
