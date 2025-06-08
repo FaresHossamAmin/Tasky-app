@@ -202,7 +202,7 @@ ThemeData lightTheme = ThemeData(
   ),
   splashFactory: NoSplash.splashFactory,
   popupMenuTheme: PopupMenuThemeData(
-    color: const Color(0xFFFFFFFF),
+    color: Color.fromARGB(255, 255, 255, 255),
     shape: RoundedRectangleBorder(
       side: const BorderSide(color: Color(0xFF15B86C), width: 1),
       borderRadius: BorderRadius.circular(16),
@@ -211,6 +211,7 @@ ThemeData lightTheme = ThemeData(
     shadowColor: const Color(0xFF15B86C),
     labelTextStyle: WidgetStateProperty.all(
       const TextStyle(
+        color: Color.fromARGB(255, 0, 0, 0),
         fontSize: 20,
         fontWeight: FontWeight.w400,
       ),

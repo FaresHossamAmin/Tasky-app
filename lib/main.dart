@@ -11,7 +11,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await PreferencesManager().init();
-  // PreferencesManager().clear();
   ThemeController().init();
 
   runApp(ChangeNotifierProvider(

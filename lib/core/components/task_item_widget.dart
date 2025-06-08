@@ -89,9 +89,11 @@ class TaskItemWidget extends StatelessWidget {
               }
             },
             itemBuilder: (context) => TaskItemActionsEnum.values.map((e) {
+              String text = model.isDone ? "Uncheck" : "Check";
               return PopupMenuItem<TaskItemActionsEnum>(
                 value: e,
-                child: Text(e.name),
+                child:
+                    Text(e == TaskItemActionsEnum.markAsDone ? text : e.name),
               );
             }).toList(),
           ),
