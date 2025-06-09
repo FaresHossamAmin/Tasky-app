@@ -21,5 +21,18 @@ Tasky is a sleek and intuitive task management app built with Flutter to help yo
 
 ---
 
-Check out the [full source code](https://github.com/FaresHossamAmin/Tasky-app) and contribute if you like! 🚀
+## 🔌 Installation on Physical Device (USB)
 
+To run Tasky directly on your Android device using USB:
+
+1. **Connect Your Phone**
+   - Plug your Android phone into your computer using a USB cable.
+   - Enable **Developer Options** and **USB Debugging** on your phone.
+
+2. **Build and Install the App**
+
+   In your terminal, navigate to the root of the project and run:
+
+   ```bash
+   flutter build apk --release
+   flutter install
