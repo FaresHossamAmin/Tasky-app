@@ -28,21 +28,23 @@ class CompleteTasksScreen extends StatelessWidget {
               ),
             ),
             Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: TaskListWidget(
-                  tasks: todoTasks,
-                  emptyMessage: 'No Task Found',
-                  onTap: (value, index) {
-                    final taskId = todoTasks[index!].id;
-                    controller.doneTask(value, taskId);
-                  },
-                  onDelete: (int? id) {
-                    controller.deleteTask(id);
-                  },
-                  onEdit: () {
-                    controller.loadAllTasks();
-                  },
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: TaskListWidget(
+                    tasks: todoTasks,
+                    emptyMessage: 'No Task Found',
+                    onTap: (value, index) {
+                      final taskId = todoTasks[index!].id;
+                      controller.doneTask(value, taskId);
+                    },
+                    onDelete: (int? id) {
+                      controller.deleteTask(id);
+                    },
+                    onEdit: () {
+                      controller.loadAllTasks();
+                    },
+                  ),
                 ),
               ),
             ),
