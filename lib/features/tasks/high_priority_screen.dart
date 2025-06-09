@@ -10,7 +10,13 @@ class HighPriorityScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('High Priority Tasks'),
+        title: Align(
+          alignment: Alignment.topLeft,
+          child: Text(
+            'High Priority Tasks',
+            style: Theme.of(context).textTheme.labelSmall,
+          ),
+        ),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -20,9 +26,9 @@ class HighPriorityScreen extends StatelessWidget {
               if (controller.isLoading) {
                 return const Center(child: CircularProgressIndicator());
               }
-        
+
               final highPriorityTasks = controller.highPriorityTasks;
-        
+
               return TaskListWidget(
                 tasks: highPriorityTasks,
                 emptyMessage: 'No Task Found',
